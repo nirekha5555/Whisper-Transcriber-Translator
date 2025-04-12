@@ -1,0 +1,97 @@
+## Milestone 4: Comprehensive Project Documentation
+
+## Title: Whisper Transcriber & Translator with Visualizations
+
+### Project Overview
+The Whisper Transcriber & Translator is a Speech-To-Text application leveraging OpenAI's Whisper Automatic Speech Recognition (ASR) system. The application transcribes audio input, translates it into French, detects the source language using both Whisper and `langdetect`, and provides a downloadable output file. For Milestone 3, we enhanced the project by adding unit tests, deploying it via Gradio in Google Colab, and incorporating audio waveform visualizations.
+
+#### Key Features
+- **Transcription**: Converts spoken audio into text using Whisper’s "medium" model.
+- **Translation**: Translates the transcribed text into French.
+- **Language Detection**: Identifies the source language using Whisper’s built-in detection and a fallback `langdetect` method.
+- **Output File**: Saves results in a `.txt` file for download.
+- **Visualization**: Plots the audio waveform to provide visual insight into the input signal.
+- **Deployment**: Launches a user-friendly Gradio interface with a public URL.
+
+### Whisper Model Details
+Whisper, developed by OpenAI, is a state-of-the-art ASR system trained on 680,000 hours of multilingual audio data. It uses a Transformer-based encoder-decoder architecture:
+- **Input**: Audio is converted into 30-second chunks and transformed into log-Mel spectrograms.
+- **Processing**: The encoder processes the spectrograms, and the decoder generates text output.
+- **Capabilities**: Supports transcription and translation across multiple languages with high accuracy.
+
+For this project, we use the "medium" model, balancing performance and computational efficiency (1.5GB, ~500M parameters). More details are available at [OpenAI Whisper Blog](https://openai.com/blog/whisper/).
+
+### Milestone 3 Components
+
+#### 1. Installation
+We installed essential libraries:
+- `torch`: For Whisper’s PyTorch backend.
+- `whisper`: Installed from OpenAI’s GitHub repository.
+- `langdetect`: For fallback language detection.
+- `ffmpeg-python`: For audio file handling.
+- `gradio`: For web interface deployment.
+- `matplotlib`: For waveform visualization.
+
+#### 2. Utility Functions
+Two key functions were implemented:
+- **`detect_language(text)`**: Uses `langdetect` to identify the language of the transcribed text, returning "unknown" on failure.
+- **`save_output_file(transcription, translation, whisper_lang, detected_lang)`**: Saves transcription, translation, and language detection results to `whisper_output.txt`.
+
+#### 3. Unit Tests
+Unit tests ensure the reliability of utility functions:
+- **Language Detection Tests**: Verify `detect_language` correctly identifies English ("en"), French ("fr"), and handles empty input ("unknown").
+- **File Saving Tests**: Confirm `save_output_file` writes the expected content and structure to the output file.
+
+#### 4. Audio Waveform Visualization
+A new feature visualizes the audio signal:
+- **Process**: The audio is loaded using `whisper.load_audio`, padded/trimmed to 30 seconds, and plotted with `matplotlib`.
+- **Plot Details**:
+  - X-axis: Time (seconds, based on a 16kHz sample rate).
+  - Y-axis: Amplitude.
+  - Saved as `waveform.png` for display in Gradio.
+- **Purpose**: Helps users understand the audio input’s characteristics (e.g., loudness, duration).
+
+#### 5. Transcription and Translation Logic
+The core function `transcribe_and_translate(audio_path)`:
+- Loads and preprocesses audio into a log-Mel spectrogram.
+- Detects the language using Whisper and `langdetect`.
+- Transcribes the audio and translates it to French.
+- Generates the waveform plot.
+- Returns language detection, transcription, translation, output file path, and waveform image.
+
+#### 6. Gradio Deployment
+The application is deployed using Gradio:
+- **Input**: Audio file upload (via `gr.Audio`).
+- **Outputs**:
+  - Language detection text.
+  - Transcription textbox.
+  - Translation textbox.
+  - Downloadable `.txt` file.
+  - Waveform image.
+- **Public URL**: Generated with `share=True`, valid for 72 hours in Colab.
+
+### Implementation Steps
+1. **Setup**: Installed libraries in Colab.
+2. **Utilities**: Defined and tested `detect_language` and `save_output_file`.
+3. **Visualization**: Added waveform plotting before and within the Gradio app.
+4. **Core Logic**: Implemented transcription, translation, and output generation.
+5. **Deployment**: Launched the Gradio interface with all outputs.
+
+### Results
+- **Unit Tests**: All tests passed, confirming utility function accuracy.
+- **Visualization**: Waveform plots successfully display audio signals.
+- **Deployment**: The Gradio app runs in Colab, providing a public URL for testing.
+
+### Use Cases
+- **Transcription**: Convert lectures or interviews into text.
+- **Translation**: Assist multilingual communication (e.g., English to French).
+- **Education**: Visualize audio signals for learning purposes.
+- **Customer Service**: Automate and analyze voice interactions.
+
+### Challenges and Solutions
+- **Audio Length**: Whisper processes 30-second chunks; longer files are trimmed, potentially losing data. Solution: Pad/trim audio explicitly.
+- **Resource Usage**: The "medium" model requires significant memory. Solution: Use Colab’s GPU runtime.
+- **Language Detection**: Whisper’s detection may differ from `langdetect`. Solution: Display both for transparency.
+
+### Conclusion
+This project successfully delivers a functional, tested, and visually enhanced Speech-To-Text application. The addition of waveform visualization enriches user interaction, while Gradio deployment ensures accessibility. This documentation, combined with the Colab notebook.
