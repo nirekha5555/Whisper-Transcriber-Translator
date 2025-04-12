@@ -1,0 +1,7 @@
+
+torch
+whisper
+langdetect
+gradio
+ffmpeg-python
+git+https://github.com/openai/whisper.git
