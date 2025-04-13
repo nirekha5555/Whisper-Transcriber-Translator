@@ -21,7 +21,7 @@ Whisper, developed by OpenAI, is a state-of-the-art ASR system trained on 680,00
 
 For this project, we use the "medium" model, balancing performance and computational efficiency (1.5GB, ~500M parameters). More details are available at [OpenAI Whisper Blog](https://openai.com/blog/whisper/).
 
-### Milestone 3 Components
+### Milestone 4 Components
 
 #### 1. Installation
 We installed essential libraries:
